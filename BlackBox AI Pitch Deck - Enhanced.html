@@ -1,0 +1,422 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlackBox AI Pitch Deck</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <style>
+        .slide { display: none; }
+        .slide.active { display: block; }
+        .dashboard-mock { 
+            background: #f8fafc; 
+            border: 2px solid #e2e8f0; 
+            padding: 1rem; 
+            border-radius: 8px; 
+        }
+        .report-preview { 
+            background: #fff; 
+            border: 1px solid #cbd5e1; 
+            padding: 1rem; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+        }
+        .sensor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        .sensor-card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1rem;
+            transition: all 0.3s ease;
+        }
+        .sensor-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .fault-timeline {
+            height: 200px;
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 font-sans">
+    <!-- Header -->
+    <header class="bg-blue-900 p-4 text-center sticky top-0 z-10">
+        <h1 class="text-2xl font-bold">BlackBox AI</h1>
+        <p class="text-sm">Contact: smedwards121@gmail.com</p>
+    </header>
+
+    <!-- Slides Container -->
+    <div class="max-w-4xl mx-auto p-6 space-y-12" id="slides">
+        <!-- Slide 1: Title -->
+        <div class="slide bg-white p-8 rounded-lg shadow-lg text-center">
+            <h1 class="text-4xl font-bold text-blue-900">BlackBox AI</h1>
+            <p class="text-xl text-gray-600 mt-2">Advanced AI-Powered Avionics Fault Detection</p>
+            <p class="text-sm text-gray-500 mt-4">Presented by: Samuel Edwards, Founder</p>
+        </div>
+
+        <!-- Slide 2: Problem -->
+        <div class="slide bg-white p-8 rounded-lg shadow-lg">
+            <h2 class="text-2xl font-semibold text-blue-900">The Problem</h2>
+            <div class="sensor-grid mt-4">
+                <div class="sensor-card">
+                    <h3 class="font-semibold text-blue-900">IRS-L/R Data</h3>
+                    <p class="text-sm text-gray-600">Inertial Reference Systems drift over time, leading to velocity and position errors. Data streams at 10Hz on platforms like the 737.</p>
+                </div>
+                <div class="sensor-card">
+                    <h3 class="font-semibold text-blue-900">GPS-L/R Data</h3>
+                    <p class="text-sm text-gray-600">Dual GPS receivers provide accurate position and timing at 1Hz, serving as a crucial reference, but are susceptible to jamming/spoofing.</p>
+                </div>
+                <div class="sensor-card">
+                    <h3 class="font-semibold text-blue-900">A429 Buses</h3>
+                    <p class="text-sm text-gray-600">Multiple ARINC 429 buses transmit diverse avionics data at up to 100KHz, requiring detailed analysis for anomalies.</p>
+                </div>
+            </div>
+            <ul class="list-disc list-inside text-gray-700 mt-4 space-y-2">
+                <li>Detecting subtle divergence between IRS-L and IRS-R velocity/position requires sophisticated analysis.</li>
+                <li>Identifying specific position blunders and large velocity errors from drifting IRS data is manually intensive.</li>
+                <li>Monitoring GPS-L and GPS-R consistency and detecting unexpected shifts is critical for navigation integrity.</li>
+                <li>Current tools struggle with multi-sensor data fusion and specific anomaly pattern recognition required for modern aircraft systems.</li>
+                <li>Manual analysis of massive avionics logs costs millions in V&V cycles and delays certification.</li>
+            </ul>
+        </div>
+
+        <!-- Slide 3: Solution -->
+        <div class="slide bg-white p-8 rounded-lg shadow-lg">
+            <h2 class="text-2xl font-semibold text-blue-900">Our Solution</h2>
+            <p class="text-gray-700 mt-4">BlackBox AI: An advanced ML platform purpose-built for avionics data, providing:</p>
+            <ul class="list-disc list-inside text-gray-700 mt-2 space-y-2">
+                <li>High-fidelity data ingestion and parsing for IRS, GPS, A429, MIL-STD-1553, and other sensor formats.</li>
+                <li>ML models specifically trained to detect IRS velocity divergence, position blunder, and GPS inconsistencies.</li>
+                <li>Automated cross-sensor data fusion to identify complex fault patterns not visible in individual data streams.</li>
+                <li>Generation of auditable, DO-178C and EASA compliant reports with detailed fault context and root cause analysis.</li>
+                <li>Seamless integration into existing V&V and DevOps pipelines for accelerated testing and certification.</li>
+            </ul>
+        </div>
+
+        <!-- Slide 4: Market Opportunity -->
+        <div class="slide bg-white p-8 rounded-lg shadow-lg">
+            <h2 class="text-2xl font-semibold text-blue-900">Market Opportunity</h2>
+            <div class="grid grid-cols-2 gap-4 mt-4">
+                <div>
+                    <canvas id="marketChart" height="200"></canvas>
+                </div>
+                <div>
+                    <canvas id="growthChart" height="200"></canvas>
+                </div>
+            </div>
+            <p class="text-gray-700 mt-4">Target Market Segments:</p>
+            <ul class="list-disc list-inside text-gray-700 mt-2 space-y-2">
+                <li>Commercial Aircraft OEMs (Boeing, Airbus)</li>
+                <li>Avionics Suppliers (Honeywell, Collins Aerospace)</li>
+                <li>Flight Test Organizations</li>
+                <li>MRO Providers</li>
+            </ul>
+        </div>
+
+        <!-- Slide 5: Product Features -->
+        <div class="slide bg-white p-8 rounded-lg shadow-lg">
+            <h2 class="text-2xl font-semibold text-blue-900">Product Features (MVP)</h2>
+            <div class="dashboard-mock mt-4 bg-gray-100 p-6 rounded-lg shadow-xl">
+                <h3 class="text-2xl font-bold text-blue-800 mb-6">Advanced AI Dashboard: Real-Time Avionics Insight</h3>
+
+                <!-- Real-time Data Feed Simulation -->
+                <div class="mb-6">
+                    <h4 class="text-lg font-semibold text-gray-700 mb-2">Simulated Live Data Stream</h4>
+                    <div class="bg-gray-200 p-3 rounded-md text-sm font-mono text-gray-800 flex items-center justify-between">
+                        <span><span id="data-count">0</span> data packets processed...</span>
+                        <span class="text-blue-600 font-bold">LIVE</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Placeholder for dynamic content - visualizations removed -->
+                    <div class="bg-white p-4 rounded-lg shadow-md flex items-center justify-center text-gray-500">
+                        Dynamic Sensor Data Visualizations (Placeholder)
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow-md flex items-center justify-center text-gray-500">
+                        Fault Correlation Analysis (Placeholder)
+                    </div>
+                </div>
+
+                <!-- Active Faults -->
+                <div class="mt-6 bg-white p-4 rounded-lg shadow-md">
+                    <h4 class="text-lg font-semibold text-gray-700 mb-3">Active Faults & Anomalies</h4>
+                    <div id="active-faults-list" class="space-y-3">
+                        <!-- Fault messages will be added/updated here by JavaScript -->
+                         <div class="fault-message bg-red-100 border-l-4 border-red-600 text-red-800 p-3 rounded-md flex justify-between items-center" role="alert">
+                             <div>
+                                 <p class="font-bold">High Severity: IRS-L/R Velocity Divergence</p>
+                                 <p class="text-sm">Magnitude: 0.5nm | Time: 12:34:56 | Affected Systems: Navigation, Flight Controls</p>
+                             </div>
+                             <span class="text-xs font-semibold">Fault ID: F001</span>
+                         </div>
+                         <div class="fault-message bg-yellow-100 border-l-4 border-yellow-600 text-yellow-800 p-3 rounded-md flex justify-between items-center" role="alert">
+                             <div>
+                                 <p class="font-bold">Medium Severity: GPS-L/R Position Offset</p>
+                                 <p class="text-sm">Magnitude: 2ms/5m | Time: 12:34:58 | Affected Systems: Navigation, FMS</p>
+                             </div>
+                             <span class="text-xs font-semibold">Fault ID: A005</span>
+                         </div>
+                          <div class="fault-message bg-blue-100 border-l-4 border-blue-600 text-blue-800 p-3 rounded-md flex justify-between items-center" role="alert">
+                             <div>
+                                 <p class="font-bold">Low Severity: A429 Bus 1 Error Count Increasing</p>
+                                 <p class="text-sm">Threshold: 15 errors/sec | Time: 12:35:10 | Affected Systems: Various Avionics</p>
+                             </div>
+                             <span class="text-xs font-semibold">Fault ID: W010</span>
+                         </div>
+                    </div>
+                </div>
+            </div>
+            <ul class="list-disc list-inside text-gray-700 mt-4 space-y-2">
+                <li>Precisely detect IRS velocity divergence and position blunder using advanced ML techniques.</li>
+                <li>Monitor and report on GPS-L/R consistency and timing/positional integrity.</li>
+                <li>Perform automated cross-sensor analysis to identify complex fault signatures.</li>
+                <li>Generate detailed, auditable fault reports for streamlined certification processes.</li>
+                <li>Provide customizable anomaly detection rules adaptable to various aircraft and mission profiles (Commercial, Defense, UAVs).</li>
+            </ul>
+        </div>
+
+        <!-- Slide 6: Competitive Advantage -->
+        <div class="slide bg-white p-8 rounded-lg shadow-lg">
+            <h2 class="text-2xl font-semibold text-blue-900">Why BlackBox AI?</h2>
+            <div class="report-preview mt-4">
+                <h3 class="text-lg font-semibold text-gray-800">Advanced Fault Report</h3>
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <div class="space-y-2">
+                        <p class="text-sm text-gray-600">Fault: IRS-L/R Position Divergence</p>
+                        <p class="text-sm text-gray-600">Time: 12:34:56 | Severity: High</p>
+                        <p class="text-sm text-gray-600">Affected Systems: Navigation, Flight Controls</p>
+                        <p class="text-sm text-gray-600">Root Cause: IRS-L Accelerometer Bias</p>
+                        <p class="text-sm text-gray-600">Certification Impact: DO-178C Level A</p>
+                    </div>
+                </div>
+            </div>
+            <ul class="list-disc list-inside text-gray-700 mt-4 space-y-2">
+                <li>Advanced sensor fusion algorithms for precise fault detection</li>
+                <li>DO-178C compliant reports with full traceability</li>
+                <li>Real-time fault prediction using historical data</li>
+                <li>Seamless integration with existing avionics tools</li>
+            </ul>
+        </div>
+
+        <!-- Slide 7: Founder Fit -->
+        <div class="slide bg-white p-8 rounded-lg shadow-lg">
+            <h2 class="text-2xl font-semibold text-blue-900">Founder</h2>
+            <p class="text-gray-700 mt-4">Samuel Edwards, Software Engineer III, Boeing</p>
+            <ul class="list-disc list-inside text-gray-700 mt-2 space-y-2">
+                <li>7+ years leading 737 Mission Systems (Navigation, Performance)</li>
+                <li>Expert in A429 decoding, DO-178C, and V&V for certifiable software</li>
+                <li>Built ML models for sensor fusion and fault prediction</li>
+                <li>Full-stack developer (AWS, Node.js, SwiftUI) for robust MVP delivery</li>
+            </ul>
+        </div>
+
+        <!-- Slide 8: MVP Plan -->
+        <div class="slide bg-white p-8 rounded-lg shadow-lg">
+            <h2 class="text-2xl font-semibold text-blue-900">MVP Plan (30 Days)</h2>
+            <ul class="list-disc list-inside text-gray-700 mt-4 space-y-2">
+                <li>Week 1: Implement IRS-L/R and GPS-L/R data parsers</li>
+                <li>Week 2: Develop sensor fusion ML models</li>
+                <li>Week 3: Build real-time fault detection dashboard</li>
+                <li>Week 4: Generate DO-178C compliant reports</li>
+            </ul>
+        </div>
+
+        <!-- Slide 9: Funding Ask -->
+        <div class="slide bg-white p-8 rounded-lg shadow-lg">
+            <h2 class="text-2xl font-semibold text-blue-900">Funding Ask</h2>
+            <p class="text-gray-700 mt-4">Pre-Seed: $500K–$1.5M</p>
+            <ul class="list-disc list-inside text-gray-700 mt-2 space-y-2">
+                <li>Develop DO-178C compliant tools</li>
+                <li>Hire ML engineers and aerospace domain experts</li>
+                <li>Secure 2–3 design partners for pilots</li>
+                <li>Build certification-ready MVP</li>
+            </ul>
+        </div>
+
+        <!-- Slide 10: Call to Action -->
+        <div class="slide bg-white p-8 rounded-lg shadow-lg text-center">
+            <h2 class="text-2xl font-semibold text-blue-900">Join Us</h2>
+            <p class="text-gray-700 mt-4">Partner with BlackBox AI to revolutionize aerospace fault detection</p>
+            <p class="text-gray-700">Contact: smedwards121@gmail.com</p>
+            <p class="text-gray-700">Let's transform avionics data analysis!</p>
+        </div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="fixed bottom-4 right-4 flex space-x-4">
+        <button id="prevBtn" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Previous</button>
+        <button id="nextBtn" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Next</button>
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
+            window.scrollTo({ top: slides[index].offsetTop - 100, behavior: 'smooth' });
+        }
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        });
+
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        });
+
+        // Initialize first slide
+        showSlide(currentSlide);
+
+        // Market Chart
+        const ctx = document.getElementById('marketChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Total V&V Market', 'Fault Analysis'],
+                datasets: [{
+                    label: 'Market Size ($B)',
+                    data: [10, 2],
+                    backgroundColor: ['#3b82f6', '#1e3a8a'],
+                    borderColor: ['#1e40af', '#1e3a8a'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: { beginAtZero: true, title: { display: true, text: 'Market Size ($B)' } }
+                },
+                plugins: { legend: { display: false } }
+            }
+        });
+
+        // Growth Chart
+        const growthCtx = document.getElementById('growthChart').getContext('2d');
+        new Chart(growthCtx, {
+            type: 'line',
+            data: {
+                labels: ['2024', '2025', '2026', '2027'],
+                datasets: [{
+                    label: 'Market Growth',
+                    data: [2, 2.4, 2.9, 3.5],
+                    borderColor: '#3b82f6',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                scales: {
+                    y: { beginAtZero: true, title: { display: true, text: 'Market Size ($B)' } }
+                }
+            }
+        });
+
+        // Ensure the DOM is fully loaded before running visualization scripts
+        document.addEventListener('DOMContentLoaded', (event) => {
+
+            // --- Simplified Dashboard Content (Removed D3.js visualizations) ---
+            console.log('DOM fully loaded. Initializing simplified dashboard elements.'); // Debugging log
+
+            // Simulate data processing count - simplified and increased frequency
+            console.log('Starting data processing simulation.'); // Debugging log
+            let processedCount = 0;
+            const dataCountElement = document.getElementById('data-count');
+            if (dataCountElement) {
+                 // Simulate a more active processing rate
+                setInterval(() => {
+                    processedCount += Math.floor(Math.random() * 100) + 50; // Simulate processing 50-150 packets per interval
+                    dataCountElement.innerText = processedCount.toLocaleString();
+                }, 50); // Update the count very frequently
+            } else {
+                console.error('Data count element not found.'); // Debugging log
+            }
+
+            // --- Simulate cycling fault messages ---
+            console.log('Starting fault message cycling simulation.'); // Debugging log
+
+            const faultMessages = document.querySelectorAll('#active-faults-list .fault-message');
+            let currentMessageIndex = 0;
+
+            // Initially hide all messages
+            faultMessages.forEach(msg => msg.style.display = 'none');
+
+            function showNextFaultMessage() {
+                // Hide the current message
+                if (faultMessages.length > 0) {
+                    faultMessages[currentMessageIndex].style.display = 'none';
+
+                    // Move to the next message, loop back if at the end
+                    currentMessageIndex = (currentMessageIndex + 1) % faultMessages.length;
+
+                    // Show the next message
+                    faultMessages[currentMessageIndex].style.display = 'flex'; // Use flex to maintain layout
+                }
+            }
+
+            // Show the first message immediately and then start the interval
+             if (faultMessages.length > 0) {
+                faultMessages[currentMessageIndex].style.display = 'flex';
+                setInterval(showNextFaultMessage, 3000); // Cycle every 3 seconds
+            }
+
+        });
+    </script>
+</body>
+</html>
