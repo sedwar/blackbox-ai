@@ -665,6 +665,53 @@
             </ul>
         </div>
 
+        <!-- Slide 7: Traction -->
+        <div class="slide bg-white p-8 rounded-lg shadow-lg">
+            <h2 class="text-2xl font-semibold text-blue-900">📈 Early Traction</h2>
+            <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-blue-50 p-6 rounded-lg">
+                    <h3 class="font-semibold text-blue-900 mb-4">Pilot Programs</h3>
+                    <div class="space-y-4">
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h4 class="font-semibold text-blue-900">Flight Test Teams</h4>
+                                    <p class="text-2xl font-bold text-blue-600 mt-1">3</p>
+                                </div>
+                                <div class="text-4xl">✈️</div>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-2">Initial pilots secured for Q2 2024</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h4 class="font-semibold text-blue-900">Test Logs Processed</h4>
+                                    <p class="text-2xl font-bold text-blue-600 mt-1">20+</p>
+                                </div>
+                                <div class="text-4xl">📊</div>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-2">Successfully analyzed with ML models</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-blue-50 p-6 rounded-lg">
+                    <h3 class="font-semibold text-blue-900 mb-4">Market Validation</h3>
+                    <div class="space-y-4">
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <h4 class="font-semibold text-blue-900">Market Size</h4>
+                            <p class="text-2xl font-bold text-blue-600 mt-1">$10B+</p>
+                            <p class="text-sm text-gray-600 mt-2">Source: Frost & Sullivan Aerospace V&V Market Report 2023</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <h4 class="font-semibold text-blue-900">Growth Rate</h4>
+                            <p class="text-2xl font-bold text-blue-600 mt-1">12% CAGR</p>
+                            <p class="text-sm text-gray-600 mt-2">Driven by increased automation needs</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Final Slide: Call to Action -->
         <div class="slide bg-white p-8 rounded-lg shadow-lg text-center">
             <h2 class="text-3xl font-bold text-blue-900">Stop Staring at Raw Logs</h2>
@@ -735,7 +782,7 @@
         // Initialize first slide
         showSlide(currentSlide);
 
-        // Market Chart
+        // Market Chart with Animation
         const ctx = document.getElementById('marketChart').getContext('2d');
         new Chart(ctx, {
             type: 'bar',
@@ -752,6 +799,10 @@
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                animation: {
+                    duration: 2000,
+                    easing: 'easeInOutQuart'
+                },
                 scales: {
                     y: { 
                         beginAtZero: true, 
@@ -774,12 +825,19 @@
                 plugins: { 
                     legend: { 
                         display: false 
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `$${context.raw}B`;
+                            }
+                        }
                     }
                 }
             }
         });
 
-        // Growth Chart
+        // Growth Chart with Projections
         const growthCtx = document.getElementById('growthChart').getContext('2d');
         new Chart(growthCtx, {
             type: 'line',
@@ -789,12 +847,18 @@
                     label: 'Market Growth',
                     data: [2, 2.4, 2.9, 3.5],
                     borderColor: '#3b82f6',
-                    tension: 0.4
+                    tension: 0.4,
+                    fill: true,
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)'
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                animation: {
+                    duration: 2000,
+                    easing: 'easeInOutQuart'
+                },
                 scales: {
                     y: { 
                         beginAtZero: true, 
@@ -810,6 +874,15 @@
                         ticks: {
                             font: {
                                 size: window.innerWidth < 768 ? 10 : 12
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `$${context.raw}B`;
                             }
                         }
                     }
