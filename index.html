@@ -47,107 +47,508 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
     <style>
-        .slide { display: none; }
-        .slide.active { display: block; }
-        .dashboard-mock { 
-            background: #f8fafc; 
-            border: 2px solid #e2e8f0; 
-            padding: 1rem; 
-            border-radius: 8px; 
+        :root {
+            /* Core Theme Colors - Darker Aerospace Theme */
+            --dark-bg: #0A141F;      /* Deep Navy Background */
+            --navy: #152232;         /* Dark Navy Panels/Surfaces (slightly lighter than bg) */
+            --accent-blue: #5B84B1;  /* Brighter Steel Blue Accent */
+            --accent-grey: #BCCCDC;  /* Medium Grey for subtle accents */
+
+            --text-dark: #1E3A52;    /* Dark text (used sparingly on light elements) */
+            --text-light: #FFFFFF; /* Pure white for main text and headers on dark */
+            --text-muted: #A0AEC0; /* Muted grey for body text and details */
+            --text-dark-header: #E0E6ED; /* Light grey for headers on darker backgrounds */
+
+            --border-color: #2C405A; /* Medium Navy Border */
+            --error-red: #FF6B6B;    /* Brighter error red */
+            --success-green: #38E15F; /* More vibrant success green */
+            --warning-yellow: #FFD166; /* Brighter warning yellow */
+            --error-red-rgb: 255, 107, 107;
+            --success-green-rgb: 56, 225, 95; /* RGB for vibrant success green */
+            --warning-yellow-rgb: 255, 209, 102;
+
+            /* UI Colors */
+            --surface-dark: var(--navy); /* Alias for dark surface */
+            --surface-light: #F0F4F8; /* Very Light Grey Background (used sparingly) */
+            --chart-grid-color: rgba(160, 174, 192, 0.3); /* Semi-transparent muted grey for grids */
+            --chart-text-color-light-bg: var(--text-dark); /* Text color for chart labels/ticks on light background */
+            --chart-text-color-dark-bg: var(--text-muted); /* Text color for chart labels/ticks on dark background */
+
+            /* Gradients (Subtle) */
+            --gradient-primary: linear-gradient(135deg, var(--accent-blue), var(--navy));
+            --gradient-dark: linear-gradient(135deg, var(--navy), var(--dark-bg));
         }
-        .report-preview { 
-            background: #fff; 
-            border: 1px solid #cbd5e1; 
-            padding: 1rem; 
-            border-radius: 8px; 
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+
+        body {
+            background: var(--dark-bg); /* Consistent dark background */
+            color: var(--text-light); /* Default text is light on dark background */
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            padding-bottom: 4rem;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
-        .sensor-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
+
+        /* General element styles */
+        h1, h2, h3, h4, h5, h6 {
+            color: var(--text-light); /* Headers are light on dark background */
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
         }
-        .sensor-card {
-            background: #fff;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 1rem;
+
+        p {
+            color: var(--text-dark); /* Default paragraph text is dark on light background */
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+            color: var(--text-dark); /* List text is dark on light background */
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            position: relative;
+            padding-left: 1.2rem;
+            color: var(--text-dark); /* Ensure list items are dark on light background */
+        }
+
+        li::before {
+            content: '—';
+            color: var(--accent-blue); /* Use accent color for bullet */
+            position: absolute;
+            left: 0;
+        }
+
+        /* Slide Styling (Consistent Light Content Area on Dark Background) */
+        .slide {
+            display: none;
+            background: var(--surface-light); /* Light background for slide content area */
+            color: var(--text-dark); /* Dark text on light background */
+            border-radius: 12px;
+            border: 1px solid var(--accent-grey); /* Subtle light border */
+            padding: 2.5rem; /* Adjusted padding */
+            margin: 2rem auto;
+            max-width: 900px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Lighter shadow */
+        }
+
+        .slide.active {
+            display: block;
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Card Styling (adjusting for light slide theme) */
+        .card {
+            background: var(--surface-light); /* Light background for cards within light slide */
+            color: var(--text-dark); /* Dark text on light card */
+            border: 1px solid var(--accent-grey); /* Subtle light border */
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Lighter shadow */
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
-        .sensor-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+        .card h3 {
+            color: var(--text-light); /* Light header on dark card */
+            margin-bottom: 0.5rem;
+            font-weight: 700;
         }
-        .fault-timeline {
-            height: 200px;
-            background: #f8fafc;
-            border-radius: 8px;
+
+        .card:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-blue);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Specific colored background cards (re-styling for light theme) */
+        .bg-blue-50.card, .bg-red-50.card, .bg-white.card {
+             background: var(--surface-light); /* Use light background for these */
+             color: var(--text-dark); /* Dark text */
+             border: 1px solid var(--accent-grey); /* Subtle light border */
+             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Lighter shadow */
+        }
+
+        .bg-green-50.card {
+             background: rgba(var(--success-green-rgb), 0.2); /* Green background tint */
+             border: 1px solid var(--success-green); /* Green border */
+             border-left: 4px solid var(--success-green); /* Prominent left border */
+             color: var(--text-dark); /* Dark text */
+             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Lighter shadow */
+        }
+
+        /* Header in specific colored background cards should be dark */
+        .bg-blue-50.card h3, .bg-red-50.card h3, .bg-white.card h3 {
+             color: var(--text-dark); /* Dark header */
+        }
+
+        /* Hover for specific colored background cards */
+        .bg-blue-50.card:hover, .bg-red-50.card:hover, .bg-white.card:hover {
+             background: var(--surface-light); /* Keep light background on hover */
+             border-color: var(--accent-blue); /* Accent border on hover */
+             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12); /* Slightly stronger shadow */
+        }
+
+        /* Dashboard & Report Specifics (adjusting for light theme) */
+        .dashboard-mock, .report-preview {
+             padding: 1.5rem;
+             background: var(--surface-light); /* Use light background */
+             color: var(--text-dark); /* Dark text */
+             border-radius: 12px;
+             border: 1px solid var(--accent-grey); /* Subtle light border */
+             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Lighter shadow */
+        }
+
+        .dashboard-mock h3, .report-preview h3 {
+             color: var(--text-dark); /* Dark header */
+        }
+
+        .dashboard-mock p, .dashboard-mock ul, .dashboard-mock li,
+        .report-preview p, .report-preview ul, .report-preview li {
+             color: var(--text-dark); /* Dark text */
+        }
+
+        .sensor-card {
+            text-align: center;
             padding: 1rem;
-            margin: 1rem 0;
+            background: var(--surface-dark); /* Keep sensor cards dark */
+            color: var(--text-muted);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
         }
-        /* Mobile Responsive Styles */
+
+        /* Interactive Elements */
+        .interactive-card {
+            cursor: pointer;
+        }
+
+        /* Button Styling */
+        button, .button {
+            background: var(--accent-blue);
+            color: var(--text-light);
+            padding: 0.8rem 2rem;
+            border-radius: 6px;
+            border: none;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        button:hover, .button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            opacity: 0.9;
+        }
+
+        /* Secondary Button Style (adjust for light slide theme) */
+        .button-secondary {
+            background: var(--surface-light); /* Light background */
+            color: var(--text-dark); /* Dark text */
+            border: 1px solid var(--accent-grey); /* Light border */
+            box-shadow: none;
+        }
+
+        .button-secondary:hover {
+             background: var(--accent-grey); /* Slightly darker grey on hover */
+             border-color: var(--accent-blue); /* Accent border on hover */
+             color: var(--text-dark); /* Dark text on hover */
+        }
+
+        /* Secondary button on light background */
+        .slide.active .button-secondary {
+             background: var(--surface-light); /* Light background on light slide */
+             color: var(--text-dark); /* Dark text */
+             border-color: var(--accent-grey); /* Light border */
+        }
+
+        .slide.active .button-secondary:hover {
+             background: var(--accent-grey); /* Slightly darker grey */
+             border-color: var(--accent-blue);
+             color: var(--text-dark);
+         }
+
+        /* Progress Dots */
+        .slide-progress {
+             position: fixed;
+             bottom: 1.5rem;
+             left: 50%;
+             transform: translateX(-50%);
+             display: flex;
+             gap: 0.6rem;
+             z-index: 20;
+        }
+
+        .progress-dot {
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 50%;
+            background: var(--border-color); /* Muted color */
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .progress-dot.active {
+            background: var(--accent-blue);
+            box-shadow: 0 0 8px rgba(91, 132, 177, 0.5); /* Glow based on new accent blue */
+            transform: scale(1.2);
+            border-color: var(--surface-dark);
+        }
+
+        /* Alert Styling (adjust for dark theme) */
+        .fault-message {
+             background: rgba(var(--error-red-rgb, 255, 107, 107), 0.25); /* Use brighter error-red variable with increased opacity */
+             border-left: 4px solid var(--error-red); /* Use error-red variable */
+             color: var(--text-dark); /* Dark text on light alert background */
+             padding: 1rem;
+             border-radius: 8px;
+             margin-bottom: 1rem;
+             display: flex;
+             justify-content: space-between;
+             align-items: center;
+             transition: all 0.2s ease;
+             box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .fault-message p {
+            margin-bottom: 0;
+            color: var(--text-light); /* Keep text light on dark alert background */
+        }
+
+        .fault-message .text-sm {
+            color: var(--text-muted); /* Muted text for details */
+        }
+
+        .fault-message:hover {
+            background: rgba(229, 62, 62, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Adjusting other colored alerts for dark theme */
+        .bg-yellow-100 {
+             background: rgba(var(--warning-yellow-rgb), 0.25); /* Use vibrant warning-yellow variable with background tint opacity */
+             border-left-color: var(--warning-yellow); /* Use warning-yellow variable */
+             box-shadow: 0 2px 10px rgba(246, 173, 85, 0.3);
+             color: var(--text-dark); /* Dark text on light alert background */
+             border: 1px solid var(--warning-yellow); /* Add border */
+             border-left: 4px solid var(--warning-yellow); /* Prominent left border */
+             border-radius: 8px; /* Match alert border radius */
+        }
+
+         .bg-yellow-100:hover {
+            background: rgba(246, 173, 85, 0.35);
+            transform: translateY(-4px);
+            box-shadow: 0 4px 15px rgba(246, 173, 85, 0.4);
+         }
+
+        .bg-blue-100 {
+             background: rgba(var(--accent-blue-rgb), 0.2); /* Use accent-blue variable with background tint opacity */
+             border-left-color: var(--accent-blue); /* Use accent-blue variable */
+             box-shadow: 0 2px 10px rgba(91, 132, 177, 0.3);
+             color: var(--text-dark); /* Dark text on light alert background */
+             border: 1px solid var(--accent-blue); /* Add border */
+             border-left: 4px solid var(--accent-blue); /* Prominent left border */
+             border-radius: 8px; /* Match alert border radius */
+        }
+
+        .bg-blue-100:hover {
+             background: rgba(91, 132, 177, 0.3);
+             transform: translateY(-4px);
+             box-shadow: 0 4px 15px rgba(91, 132, 177, 0.4);
+        }
+
+        /* Chart Styling (adjust for light theme) */
+        .chart-container {
+            background: var(--surface-light); /* Keep light background for chart clarity */
+            border: 1px solid var(--accent-grey); /* Subtle light border */
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* Lighter shadow */
+            margin-bottom: 2rem;
+        }
+
+        /* Grid Layout */
+        .grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        /* Specific Grid Adjustments */
+        .grid-cols-1 .card {
+             margin-bottom: 1.5rem;
+        }
+
+        /* Image/SVG Styling */
+        svg.w-10.h-10 {
+             color: var(--accent-blue);
+        }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
+            h1 { font-size: 3rem; }
+            h2 { font-size: 2.2rem; }
+            h3 { font-size: 1.5rem; }
+
             .slide {
-                padding: 1rem !important;
+                padding: 2rem;
+                margin: 1.5rem auto;
             }
+
             .grid {
-                grid-template-columns: 1fr !important;
+                gap: 1.5rem;
             }
-            .sensor-grid {
-                grid-template-columns: 1fr !important;
+
+            button, .button {
+                padding: 0.9rem 2rem;
+                font-size: 0.9rem;
             }
+
+            header .max-w-4xl {
+                padding: 0 1rem;
+            }
+
             .fault-message {
-                flex-direction: column !important;
-                align-items: flex-start !important;
+                 flex-direction: column;
+                 align-items: flex-start;
+                 padding: 1rem;
             }
+
             .fault-message span {
-                margin-top: 0.5rem;
+                 margin-top: 0.5rem;
+                 font-size: 0.75rem;
             }
-            canvas {
-                max-width: 100% !important;
-                height: auto !important;
+
+            .slide-progress {
+                bottom: 1.5rem;
+                gap: 0.6rem;
             }
-            .dashboard-mock {
-                padding: 0.5rem !important;
+
+            .progress-dot {
+                width: 0.6rem;
+                height: 0.6rem;
             }
-            .bg-gray-200 {
-                font-size: 0.875rem !important;
+
+             .card {
+                 padding: 1.5rem;
+             }
+
+             .chart-container {
+                 padding: 1.5rem;
+             }
+
+             ul {
+                 padding-left: 1rem;
+             }
+
+             li {
+                 padding-left: 1.2rem;
             }
         }
+
+        /* Header Styling - Restored */
+        header {
+            background: var(--dark-bg); /* Use the main dark background */
+            border-bottom: 1px solid var(--border-color); /* Dark border */
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            padding: 1rem 0;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+        }
+
+        header .max-w-4xl {
+            max-width: 900px; /* Match slide width */
+            padding: 0 1.5rem; /* Consistent padding */
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+            margin: 0;
+            color: var(--text-light); /* Light text color */
+        }
+
+        header .text-xs {
+            color: var(--text-muted); /* Muted light grey */
+        }
+
+        /* Styles for elements within light slides to ensure dark text */
+        .slide h1, .slide h2, .slide h3, .slide h4, .slide h5, .slide h6 {
+             color: var(--text-dark); /* Headers are dark on light slides */
+        }
+
+        .slide p, .slide ul, .slide li, .slide span, .slide div, .slide strong, .slide em, .slide a {
+             color: var(--text-dark); /* Text is dark on light slides */
+        }
+
+        /* Header Styling */
     </style>
 </head>
-<body class="bg-gray-900 text-gray-100 font-sans">
-    <!-- Header -->
-    <header class="bg-blue-900 p-4 text-center sticky top-0 z-10">
-        <h1 class="text-2xl font-bold">BlackBox AI</h1>
-        <p class="text-sm">Contact: smedwards121@gmail.com</p>
+<body>
+    <!-- Header with Enhanced Logo -->
+    <header class="bg-gradient-to-r from-dark-navy to-navy p-4 text-center sticky top-0 z-10 shadow-lg">
+        <div class="max-w-4xl mx-auto flex items-center justify-between header-content">
+            <div class="flex items-center space-x-3">
+                <svg class="w-10 h-10 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <div>
+                    <h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-light-slate">BlackBox AI</h1>
+                    <p class="text-xs text-light-slate">A Smarter Platform for Critical Systems</p>
+                </div>
+            </div>
+            <p class="text-sm text-light-slate">Contact: smedwards121@gmail.com</p>
+        </div>
     </header>
 
-    <!-- Slides Container -->
+    <!-- Slides Container with Aerospace Theme -->
     <div class="max-w-4xl mx-auto p-6 space-y-12" id="slides">
         <!-- Slide 1: Title -->
         <div class="slide bg-white p-8 rounded-lg shadow-lg text-center">
-            <h1 class="text-4xl font-bold text-blue-900">BlackBox AI</h1>
-            <p class="text-xl text-gray-600 mt-2">Predict, Prevent, Protect</p>
-            <p class="text-lg text-gray-700 mt-2">AI Fault Detection for Mission-Critical Systems</p>
+            <h1 class="text-4xl font-bold text-navy">BlackBox AI</h1>
+            <p class="text-xl text-light-navy mt-2">AI Fault Detection for Mission-Critical Systems</p>
+            <p class="text-lg text-gray-700 mt-2">A Smarter Platform for Critical Systems</p>
             <div class="mt-8 max-w-3xl mx-auto">
                 <div class="bg-blue-50 p-6 rounded-lg">
-                    <p class="text-lg text-gray-700">Transforming $10B+ in manual avionics analysis into automated, intelligent insights</p>
-                    <p class="text-sm text-gray-500 mt-2">Currently onboarding early partners in aerospace, defense, and autonomous systems</p>
+                    <p class="text-lg text-navy">Transforming $10B+ in manual avionics analysis into automated, intelligent insights</p>
+                    <p class="text-sm text-slate mt-2">Currently onboarding early partners in aerospace, defense, and autonomous systems</p>
                 </div>
             </div>
             <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
                 <div class="bg-white p-4 rounded-lg shadow-md">
-                    <h3 class="font-semibold text-blue-900">10x Faster</h3>
-                    <p class="text-sm text-gray-600">Analysis that took days now takes minutes</p>
+                    <h3 class="font-semibold text-navy">10x Faster</h3>
+                    <p class="text-sm text-slate">Analysis that took days now takes minutes</p>
                 </div>
                 <div class="bg-white p-4 rounded-lg shadow-md">
-                    <h3 class="font-semibold text-blue-900">Zero Missed Faults</h3>
-                    <p class="text-sm text-gray-600">AI-powered detection catches everything</p>
+                    <h3 class="font-semibold text-navy">Zero Missed Faults</h3>
+                    <p class="text-sm text-slate">AI-powered detection catches everything</p>
                 </div>
                 <div class="bg-white p-4 rounded-lg shadow-md">
-                    <h3 class="font-semibold text-blue-900">Certification Ready</h3>
-                    <p class="text-sm text-gray-600">DO-178C compliant from day one</p>
+                    <h3 class="font-semibold text-navy">Certification Ready</h3>
+                    <p class="text-sm text-slate">DO-178C compliant from day one</p>
                 </div>
             </div>
             <div class="mt-8">
@@ -713,54 +1114,69 @@
         </div>
 
         <!-- Final Slide: Call to Action -->
-        <div class="slide bg-white p-8 rounded-lg shadow-lg text-center">
-            <h2 class="text-3xl font-bold text-blue-900">Stop Staring at Raw Logs</h2>
-            <div class="mt-8 max-w-2xl mx-auto">
-                <p class="text-lg text-gray-700 mb-6">Join our early access program and transform how you understand avionics data.</p>
-                <div class="bg-blue-50 p-6 rounded-lg mb-8">
-                    <h3 class="font-semibold text-blue-900 mb-4">What You'll Get</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                            <h4 class="font-semibold text-blue-900">Early Access</h4>
-                            <p class="text-sm text-gray-600">Be first to deploy our intelligent diagnostics</p>
-                        </div>
-                        <div>
-                            <h4 class="font-semibold text-blue-900">Direct Input</h4>
-                            <p class="text-sm text-gray-600">Shape the product roadmap</p>
-                        </div>
-                        <div>
-                            <h4 class="font-semibold text-blue-900">Priority Support</h4>
-                            <p class="text-sm text-gray-600">Dedicated technical assistance</p>
-                        </div>
+        <div class="slide active text-center">
+            <h2 class="text-3xl font-bold text-dark-header">Stop Staring at Raw Logs</h2>
+            <p class="text-lg text-dark mt-4">Join our early access program and transform how you understand avionics data.</p>
+            <div class="mt-8 max-w-2xl mx-auto what-you-get-card">
+                <h3 class="font-semibold text-dark-header mb-4">What You'll Get</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="p-4 rounded-lg">
+                        <h4 class="font-semibold text-dark mb-1">Early Access</h4>
+                        <p class="text-sm text-dark">Be first to deploy our intelligent diagnostics</p>
+                    </div>
+                    <div class="p-4 rounded-lg">
+                        <h4 class="font-semibold text-dark mb-1">Direct Input</h4>
+                        <p class="text-sm text-dark">Shape the product roadmap</p>
+                    </div>
+                    <div class="p-4 rounded-lg">
+                        <h4 class="font-semibold text-dark mb-1">Priority Support</h4>
+                        <p class="text-sm text-dark">Dedicated technical assistance</p>
                     </div>
                 </div>
-                <div class="space-y-4">
-                    <form class="mb-6">
-                        <input type="email" placeholder="Enter your email" class="px-4 py-2 rounded-lg border border-gray-300 w-full max-w-md mb-2">
-                        <button type="submit" class="bg-blue-600 text-white px-8 py-2 rounded-lg hover:bg-blue-700 w-full max-w-md">Join Early Access</button>
-                    </form>
-                    <div class="flex justify-center space-x-4">
-                        <a href="mailto:smedwards121@gmail.com" class="bg-blue-600 text-white px-8 py-4 rounded-lg hover:bg-blue-700 inline-block text-lg font-semibold">Book a Demo</a>
-                        <a href="mailto:smedwards121@gmail.com" class="bg-gray-600 text-white px-8 py-4 rounded-lg hover:bg-gray-700 inline-block text-lg font-semibold">Contact Us</a>
-                    </div>
-                </div>
+            </div>
+            <div class="mt-8 email-signup-form mx-auto">
+                <form class="flex flex-col items-center">
+                    <input type="email" placeholder="Enter your email" required class="px-4 py-2 rounded-lg border border-accent-grey w-full max-w-md mb-4 text-dark placeholder-muted">
+                    <button type="submit" class="bg-accent-blue text-light px-8 py-2 rounded-lg hover:opacity-90 transition-colors w-full max-w-md">Join Early Access</button>
+                </form>
+            </div>
+            <div class="flex justify-center space-x-4 mt-6">
+                <a href="mailto:smedwards121@gmail.com" class="button bg-accent-blue text-light px-8 py-4 rounded-lg hover:opacity-90 transition-colors inline-block text-lg font-semibold">Book a Demo</a>
+                <a href="mailto:smedwards121@gmail.com" class="button button-secondary bg-surface-dark text-muted px-8 py-4 rounded-lg hover:bg-navy hover:text-light transition-colors inline-block text-lg font-semibold">Contact Us</a>
             </div>
         </div>
     </div>
 
-    <!-- Navigation Buttons -->
+    <!-- Navigation Buttons and Progress -->
     <div class="fixed bottom-4 right-4 flex space-x-4">
-        <button id="prevBtn" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Previous</button>
-        <button id="nextBtn" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Next</button>
+        <button id="prevBtn" class="button button-secondary">Previous</button>
+        <button id="nextBtn" class="button">Next</button>
     </div>
+    <div class="slide-progress" id="slideProgress"></div>
 
     <script>
         const slides = document.querySelectorAll('.slide');
         let currentSlide = 0;
 
+        // Create progress dots
+        const progressContainer = document.getElementById('slideProgress');
+        slides.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.className = 'progress-dot';
+            dot.addEventListener('click', () => {
+                currentSlide = index;
+                showSlide(currentSlide);
+            });
+            progressContainer.appendChild(dot);
+        });
+
         function showSlide(index) {
             slides.forEach((slide, i) => {
                 slide.classList.toggle('active', i === index);
+            });
+            // Update progress dots
+            document.querySelectorAll('.progress-dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
             });
             window.scrollTo({ top: slides[index].offsetTop - 100, behavior: 'smooth' });
         }
@@ -779,11 +1195,32 @@
             }
         });
 
-        // Initialize first slide
+        // Initialize first slide and progress dots
         showSlide(currentSlide);
 
         // Market Chart with Animation
         const ctx = document.getElementById('marketChart').getContext('2d');
+        const root = document.documentElement;
+        const computedStyle = getComputedStyle(root);
+
+        // Get computed styles for color variables
+        const textDark = computedStyle.getPropertyValue('--text-dark').trim();
+        const textMuted = computedStyle.getPropertyValue('--text-muted').trim();
+        const accentBlue = computedStyle.getPropertyValue('--accent-blue').trim();
+        const navyColor = computedStyle.getPropertyValue('--navy').trim();
+        const chartGridColor = computedStyle.getPropertyValue('--chart-grid-color').trim();
+        const surfaceLight = computedStyle.getPropertyValue('--surface-light').trim();
+
+        // Ensure chart container has light background and padding
+        const chartContainer = document.querySelector('.chart-container');
+        if (chartContainer) {
+            chartContainer.style.backgroundColor = surfaceLight;
+            chartContainer.style.padding = '1.5rem'; // Match card padding
+            chartContainer.style.borderRadius = '12px'; // Match card border radius
+            chartContainer.style.border = `1px solid ${computedStyle.getPropertyValue('--border-color').trim()}`;
+            chartContainer.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.1)'; // Lighter shadow
+        }
+
         new Chart(ctx, {
             type: 'bar',
             data: {
@@ -791,8 +1228,8 @@
                 datasets: [{
                     label: 'Market Size ($B)',
                     data: [10, 2],
-                    backgroundColor: ['#3b82f6', '#1e3a8a'],
-                    borderColor: ['#1e40af', '#1e3a8a'],
+                    backgroundColor: [accentBlue, navyColor],
+                    borderColor: accentBlue,
                     borderWidth: 1
                 }]
             },
@@ -800,33 +1237,62 @@
                 responsive: true,
                 maintainAspectRatio: false,
                 animation: {
-                    duration: 2000,
+                    duration: 1500,
                     easing: 'easeInOutQuart'
                 },
                 scales: {
-                    y: { 
-                        beginAtZero: true, 
-                        title: { 
-                            display: true, 
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
                             text: 'Market Size ($B)',
+                            color: textDark,
                             font: {
-                                size: window.innerWidth < 768 ? 12 : 14
+                                size: window.innerWidth < 768 ? 12 : 14,
+                                family: computedStyle.getPropertyValue('font-family')
                             }
+                        },
+                        ticks: {
+                            color: textDark,
+                            font: {
+                                family: computedStyle.getPropertyValue('font-family')
+                            }
+                        },
+                        grid: {
+                            color: chartGridColor,
+                            drawBorder: false
                         }
                     },
                     x: {
                         ticks: {
                             font: {
-                                size: window.innerWidth < 768 ? 10 : 12
+                                size: window.innerWidth < 768 ? 10 : 12,
+                                family: computedStyle.getPropertyValue('font-family')
                             }
+                        },
+                        grid: {
+                            color: chartGridColor,
+                            drawBorder: false
                         }
                     }
                 },
-                plugins: { 
-                    legend: { 
-                        display: false 
+                plugins: {
+                    legend: {
+                        display: true,
+                        labels: {
+                            color: textDark,
+                            font: {
+                                family: computedStyle.getPropertyValue('font-family')
+                            }
+                        }
                     },
                     tooltip: {
+                        backgroundColor: surfaceLight,
+                        titleColor: textDark,
+                        bodyColor: textDark,
+                        borderColor: accentBlue,
+                        borderWidth: 1,
+                        cornerRadius: 5,
                         callbacks: {
                             label: function(context) {
                                 return `$${context.raw}B`;
@@ -837,8 +1303,9 @@
             }
         });
 
-        // Growth Chart with Projections
+        // Enhanced Growth Chart with Projections
         const growthCtx = document.getElementById('growthChart').getContext('2d');
+
         new Chart(growthCtx, {
             type: 'line',
             data: {
@@ -846,40 +1313,76 @@
                 datasets: [{
                     label: 'Market Growth',
                     data: [2, 2.4, 2.9, 3.5],
-                    borderColor: '#3b82f6',
+                    borderColor: accentBlue,
                     tension: 0.4,
                     fill: true,
-                    backgroundColor: 'rgba(59, 130, 246, 0.1)'
+                    backgroundColor: 'rgba(91, 132, 177, 0.2)', // Muted blue opacity based on new accent blue
+                    pointBackgroundColor: accentBlue,
+                    pointBorderColor: surfaceLight, // Light border for points on light background
+                    pointRadius: 4,
+                    pointHoverRadius: 6
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 animation: {
-                    duration: 2000,
+                    duration: 1500,
                     easing: 'easeInOutQuart'
                 },
                 scales: {
-                    y: { 
-                        beginAtZero: true, 
-                        title: { 
-                            display: true, 
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
                             text: 'Market Size ($B)',
+                            color: textDark,
                             font: {
-                                size: window.innerWidth < 768 ? 12 : 14
+                                size: window.innerWidth < 768 ? 12 : 14,
+                                family: computedStyle.getPropertyValue('font-family')
                             }
+                        },
+                        ticks: {
+                            color: textDark,
+                            font: {
+                                family: computedStyle.getPropertyValue('font-family')
+                            }
+                        },
+                        grid: {
+                            color: chartGridColor,
+                            drawBorder: false
                         }
                     },
                     x: {
                         ticks: {
                             font: {
-                                size: window.innerWidth < 768 ? 10 : 12
+                                size: window.innerWidth < 768 ? 10 : 12,
+                                family: computedStyle.getPropertyValue('font-family')
                             }
+                        },
+                        grid: {
+                            color: chartGridColor,
+                            drawBorder: false
                         }
                     }
                 },
                 plugins: {
+                    legend: {
+                        display: true,
+                        labels: {
+                            color: textDark,
+                            font: {
+                                family: computedStyle.getPropertyValue('font-family')
+                            }
+                        }
+                    },
                     tooltip: {
+                        backgroundColor: surfaceLight,
+                        titleColor: textDark,
+                        bodyColor: textDark,
+                        borderColor: accentBlue,
+                        borderWidth: 1,
+                        cornerRadius: 5,
                         callbacks: {
                             label: function(context) {
                                 return `$${context.raw}B`;
@@ -892,52 +1395,57 @@
 
         // Ensure the DOM is fully loaded before running visualization scripts
         document.addEventListener('DOMContentLoaded', (event) => {
-
-            // --- Simplified Dashboard Content (Removed D3.js visualizations) ---
-            console.log('DOM fully loaded. Initializing simplified dashboard elements.'); // Debugging log
-
-            // Simulate data processing count - simplified and increased frequency
-            console.log('Starting data processing simulation.'); // Debugging log
+            // Data Processing Counter
             let processedCount = 0;
             const dataCountElement = document.getElementById('data-count');
             if (dataCountElement) {
-                 // Simulate a more active processing rate
                 setInterval(() => {
-                    processedCount += Math.floor(Math.random() * 100) + 50; // Simulate processing 50-150 packets per interval
+                    processedCount += Math.floor(Math.random() * 100) + 50;
                     dataCountElement.innerText = processedCount.toLocaleString();
-                }, 50); // Update the count very frequently
-            } else {
-                console.error('Data count element not found.'); // Debugging log
+                }, 100);
             }
 
-            // --- Simulate cycling fault messages ---
-            console.log('Starting fault message cycling simulation.'); // Debugging log
-
+            // Fault Message Cycling
             const faultMessages = document.querySelectorAll('#active-faults-list .fault-message');
             let currentMessageIndex = 0;
 
-            // Initially hide all messages
-            faultMessages.forEach(msg => msg.style.display = 'none');
+            // Initially hide all messages except the first one
+            faultMessages.forEach((msg, index) => {
+                msg.style.display = index === 0 ? 'flex' : 'none';
+            });
 
             function showNextFaultMessage() {
-                // Hide the current message
                 if (faultMessages.length > 0) {
-                    faultMessages[currentMessageIndex].style.display = 'none';
-
-                    // Move to the next message, loop back if at the end
-                    currentMessageIndex = (currentMessageIndex + 1) % faultMessages.length;
-
-                    // Show the next message
-                    faultMessages[currentMessageIndex].style.display = 'flex'; // Use flex to maintain layout
+                    // Fade out current message
+                    faultMessages[currentMessageIndex].style.opacity = '0';
+                    setTimeout(() => {
+                        faultMessages[currentMessageIndex].style.display = 'none';
+                        
+                        // Move to next message
+                        currentMessageIndex = (currentMessageIndex + 1) % faultMessages.length;
+                        
+                        // Show and fade in next message
+                        faultMessages[currentMessageIndex].style.display = 'flex';
+                        faultMessages[currentMessageIndex].style.opacity = '1';
+                    }, 500);
                 }
             }
 
-            // Show the first message immediately and then start the interval
-             if (faultMessages.length > 0) {
-                faultMessages[currentMessageIndex].style.display = 'flex';
-                setInterval(showNextFaultMessage, 3000); // Cycle every 3 seconds
+            // Start cycling messages
+            if (faultMessages.length > 0) {
+                setInterval(showNextFaultMessage, 4000);
             }
 
+            // Add hover effects to fault messages
+            faultMessages.forEach(msg => {
+                msg.addEventListener('mouseenter', () => {
+                    msg.style.transform = 'scale(1.02)';
+                    msg.style.transition = 'transform 0.2s ease';
+                });
+                msg.addEventListener('mouseleave', () => {
+                    msg.style.transform = 'scale(1)';
+                });
+            });
         });
     </script>
 </body>
