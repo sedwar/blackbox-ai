@@ -220,37 +220,36 @@
                 <div class="mt-6 bg-white p-4 rounded-lg shadow-md">
                     <h4 class="text-lg font-semibold text-gray-700 mb-3">Active Faults & Anomalies</h4>
                     <div id="active-faults-list" class="space-y-3">
-                        <!-- Fault messages will be added/updated here by JavaScript -->
-                         <div class="fault-message bg-red-100 border-l-4 border-red-600 text-red-800 p-3 rounded-md flex justify-between items-center" role="alert">
-                             <div>
-                                 <p class="font-bold">High Severity: IRS-L/R Velocity Divergence</p>
-                                 <p class="text-sm">Magnitude: 0.5nm | Time: 12:34:56 | Affected Systems: Navigation, Flight Controls</p>
-                             </div>
-                             <span class="text-xs font-semibold">Fault ID: F001</span>
-                         </div>
-                         <div class="fault-message bg-yellow-100 border-l-4 border-yellow-600 text-yellow-800 p-3 rounded-md flex justify-between items-center" role="alert">
-                             <div>
-                                 <p class="font-bold">Medium Severity: GPS-L/R Position Offset</p>
-                                 <p class="text-sm">Magnitude: 2ms/5m | Time: 12:34:58 | Affected Systems: Navigation, FMS</p>
-                             </div>
-                             <span class="text-xs font-semibold">Fault ID: A005</span>
-                         </div>
-                          <div class="fault-message bg-blue-100 border-l-4 border-blue-600 text-blue-800 p-3 rounded-md flex justify-between items-center" role="alert">
-                             <div>
-                                 <p class="font-bold">Low Severity: A429 Bus 1 Error Count Increasing</p>
-                                 <p class="text-sm">Threshold: 15 errors/sec | Time: 12:35:10 | Affected Systems: Various Avionics</p>
-                             </div>
-                             <span class="text-xs font-semibold">Fault ID: W010</span>
-                         </div>
+                        <div class="fault-message bg-red-100 border-l-4 border-red-600 text-red-800 p-3 rounded-md flex justify-between items-center" role="alert">
+                            <div>
+                                <p class="font-bold">High Severity: IRS-L/R Velocity Divergence</p>
+                                <p class="text-sm">Magnitude: 0.5nm | Time: 12:34:56 | Affected Systems: Navigation, Flight Controls</p>
+                            </div>
+                            <span class="text-xs font-semibold">Fault ID: F001</span>
+                        </div>
+                        <div class="fault-message bg-yellow-100 border-l-4 border-yellow-600 text-yellow-800 p-3 rounded-md flex justify-between items-center" role="alert">
+                            <div>
+                                <p class="font-bold">Medium Severity: GPS-L/R Position Offset</p>
+                                <p class="text-sm">Magnitude: 2ms/5m | Time: 12:34:58 | Affected Systems: Navigation, FMS</p>
+                            </div>
+                            <span class="text-xs font-semibold">Fault ID: A005</span>
+                        </div>
+                        <div class="fault-message bg-blue-100 border-l-4 border-blue-600 text-blue-800 p-3 rounded-md flex justify-between items-center" role="alert">
+                            <div>
+                                <p class="font-bold">Low Severity: A429 Bus 1 Error Count Increasing</p>
+                                <p class="text-sm">Threshold: 15 errors/sec | Time: 12:35:10 | Affected Systems: Various Avionics</p>
+                            </div>
+                            <span class="text-xs font-semibold">Fault ID: W010</span>
+                        </div>
                     </div>
                 </div>
             </div>
             <ul class="list-disc list-inside text-gray-700 mt-4 space-y-2">
                 <li>Precisely detect IRS velocity divergence and position blunder using advanced ML techniques.</li>
                 <li>Monitor and report on GPS-L/R consistency and timing/positional integrity.</li>
-                <li>Perform automated cross-sensor analysis to identify complex fault signatures.</li>
+                <li>Perform automated fault detection to identify complex fault signatures.</li>
                 <li>Generate detailed, auditable fault reports for streamlined certification processes.</li>
-                <li>Provide customizable anomaly detection rules adaptable to various aircraft and mission profiles (Commercial, Defense, UAVs).</li>
+                <li>Provide customizable anomaly detection rules adaptable to various aircraft and mission profiles.</li>
             </ul>
         </div>
 
@@ -281,23 +280,60 @@
         <div class="slide bg-white p-8 rounded-lg shadow-lg">
             <h2 class="text-2xl font-semibold text-blue-900">Founder</h2>
             <p class="text-gray-700 mt-4">Samuel Edwards, Software Engineer III, Boeing</p>
-            <ul class="list-disc list-inside text-gray-700 mt-2 space-y-2">
-                <li>7+ years leading 737 Mission Systems (Navigation, Performance)</li>
-                <li>Expert in A429 decoding, DO-178C, and V&V for certifiable software</li>
-                <li>Built ML models for sensor fusion and fault prediction</li>
-                <li>Full-stack developer (AWS, Node.js, SwiftUI) for robust MVP delivery</li>
-            </ul>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                <div>
+                    <h3 class="font-semibold text-blue-900">Education</h3>
+                    <ul class="list-disc list-inside text-gray-700 mt-2 space-y-2">
+                        <li>M.S. Computer Science, University of Southern California (2023)</li>
+                        <li>B.S. Mechanical Engineering, Clemson University (2018)</li>
+                        <li>Minor in Mathematics</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-blue-900">Key Experience</h3>
+                    <ul class="list-disc list-inside text-gray-700 mt-2 space-y-2">
+                        <li>5+ years at Boeing leading 737 Mission Systems (Navigation, Performance)</li>
+                        <li>Expert in DO-178C certification and safety-critical software</li>
+                        <li>Full-stack development (AWS, Node.js, SwiftUI, React)</li>
+                        <li>ML/AI expertise from USC coursework and projects</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-4">
+                <h3 class="font-semibold text-blue-900">Technical Expertise</h3>
+                <ul class="list-disc list-inside text-gray-700 mt-2 space-y-2">
+                    <li>Safety-critical software development and testing</li>
+                    <li>Avionics protocols (A429, MIL-STD-1553)</li>
+                    <li>Machine Learning and AI implementation</li>
+                    <li>Full-stack development and cloud architecture</li>
+                    <li>Agile methodologies and CI/CD pipelines</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Slide 8: MVP Plan -->
         <div class="slide bg-white p-8 rounded-lg shadow-lg">
             <h2 class="text-2xl font-semibold text-blue-900">MVP Plan (30 Days)</h2>
-            <ul class="list-disc list-inside text-gray-700 mt-4 space-y-2">
-                <li>Week 1: Implement IRS-L/R and GPS-L/R data parsers</li>
-                <li>Week 2: Develop sensor fusion ML models</li>
-                <li>Week 3: Build real-time fault detection dashboard</li>
-                <li>Week 4: Generate DO-178C compliant reports</li>
-            </ul>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                <div>
+                    <h3 class="font-semibold text-blue-900">Technical Implementation</h3>
+                    <ul class="list-disc list-inside text-gray-700 mt-2 space-y-2">
+                        <li>Week 1: Implement IRS-L/R and GPS-L/R data parsers using Python and ML</li>
+                        <li>Week 2: Develop ML-based fault detection models leveraging USC experience</li>
+                        <li>Week 3: Build real-time fault detection dashboard with React/Node.js</li>
+                        <li>Week 4: Generate DO-178C compliant reports with full traceability</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-blue-900">Key Deliverables</h3>
+                    <ul class="list-disc list-inside text-gray-700 mt-2 space-y-2">
+                        <li>Safety-critical software architecture</li>
+                        <li>ML-powered fault detection engine</li>
+                        <li>Interactive web dashboard</li>
+                        <li>Certification-ready documentation</li>
+                    </ul>
+                </div>
+            </div>
         </div>
 
         <!-- Slide 9: Funding Ask -->
