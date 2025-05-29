@@ -128,135 +128,129 @@
         <!-- Slide 1: Title -->
         <div class="slide bg-white p-8 rounded-lg shadow-lg text-center">
             <h1 class="text-4xl font-bold text-blue-900">BlackBox AI</h1>
-            <p class="text-xl text-gray-600 mt-2">The Intelligence Layer for Mission-Critical Aerospace Systems</p>
-            <p class="text-sm text-gray-500 mt-4">Built by someone who's lived the problem</p>
+            <p class="text-xl text-gray-600 mt-2">ML-Powered Resilience Diagnostics for Mission-Critical Systems</p>
         </div>
 
-        <!-- Slide 2: Problem -->
+        <!-- Slide 2: What This Is -->
         <div class="slide bg-white p-8 rounded-lg shadow-lg">
-            <h2 class="text-2xl font-semibold text-blue-900">The Real Problem</h2>
-            <div class="sensor-grid mt-4">
-                <div class="sensor-card">
-                    <h3 class="font-semibold text-blue-900">Fault Detection is Broken</h3>
-                    <p class="text-sm text-gray-600">Today's process: Engineers manually review A429 logs, write custom scripts, and hope they catch critical faults. IRS velocity divergence? GPS position blunders? Good luck finding them in time.</p>
-                </div>
-                <div class="sensor-card">
-                    <h3 class="font-semibold text-blue-900">The Data Deluge</h3>
-                    <p class="text-sm text-gray-600">A single 737 flight generates 100GB+ of avionics data. A429 buses stream at 100KHz. IRS data at 10Hz. GPS at 1Hz. Manual analysis is impossible. Critical faults get missed.</p>
-                </div>
-                <div class="sensor-card">
-                    <h3 class="font-semibold text-blue-900">Certification Nightmare</h3>
-                    <p class="text-sm text-gray-600">DO-178C requires exhaustive fault analysis. Current tools? Spreadsheets, custom scripts, and hope. Each certification cycle costs millions in manual V&V. Delays cost more.</p>
-                </div>
+            <h2 class="text-2xl font-semibold text-blue-900">🚀 What This Is</h2>
+            <div class="mt-6 bg-blue-50 p-6 rounded-lg">
+                <p class="text-lg text-gray-700">BlackBox AI is a lightweight ML-based diagnostics engine that integrates into avionics simulation and test benches to detect latent sensor faults in real time.</p>
             </div>
-            <div class="mt-6 bg-red-50 p-4 rounded-lg">
-                <h3 class="font-semibold text-red-900">Real Impact</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
-                    <div>
-                        <h4 class="font-semibold text-red-900">Safety Risk</h4>
-                        <p class="text-sm text-gray-600">Critical faults missed in manual review. IRS drift undetected. GPS spoofing unnoticed. Navigation errors compound.</p>
-                    </div>
-                    <div>
-                        <h4 class="font-semibold text-red-900">Cost Impact</h4>
-                        <p class="text-sm text-gray-600">$2M+ per certification cycle in manual V&V. Months of delay. Engineers tied up in data analysis instead of innovation.</p>
-                    </div>
-                    <div>
-                        <h4 class="font-semibold text-red-900">Innovation Block</h4>
-                        <p class="text-sm text-gray-600">Can't modernize when stuck in manual processes. Can't scale when tied to custom scripts. Can't innovate when buried in data.</p>
-                    </div>
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-4 rounded-lg shadow-md">
+                    <h3 class="font-semibold text-blue-900">For Simulation Teams</h3>
+                    <p class="text-sm text-gray-600 mt-2">Integrate with existing test benches and simulation environments</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-md">
+                    <h3 class="font-semibold text-blue-900">For Validation Teams</h3>
+                    <p class="text-sm text-gray-600 mt-2">Automate fault detection and certification documentation</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-md">
+                    <h3 class="font-semibold text-blue-900">For Development Teams</h3>
+                    <p class="text-sm text-gray-600 mt-2">Catch critical faults early in the development cycle</p>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 3: Solution -->
+        <!-- Slide 3: Problem -->
         <div class="slide bg-white p-8 rounded-lg shadow-lg">
-            <h2 class="text-2xl font-semibold text-blue-900">Our Solution</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                <div>
+            <h2 class="text-2xl font-semibold text-blue-900">🚨 The Problem</h2>
+            <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-red-50 p-6 rounded-lg">
+                    <h3 class="font-semibold text-red-900">Current State</h3>
+                    <ul class="list-disc list-inside text-gray-700 mt-4 space-y-2">
+                        <li>Manual review of sensor data</li>
+                        <li>Custom scripts for each fault type</li>
+                        <li>Missed latent faults</li>
+                        <li>Delayed certification cycles</li>
+                    </ul>
+                </div>
+                <div class="bg-red-50 p-6 rounded-lg">
+                    <h3 class="font-semibold text-red-900">Impact</h3>
+                    <ul class="list-disc list-inside text-gray-700 mt-4 space-y-2">
+                        <li>$2M+ per certification cycle</li>
+                        <li>Months of delay in development</li>
+                        <li>Critical safety risks</li>
+                        <li>Innovation blocked by manual processes</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Solution -->
+        <div class="slide bg-white p-8 rounded-lg shadow-lg">
+            <h2 class="text-2xl font-semibold text-blue-900">💡 The Solution</h2>
+            <div class="mt-6">
+                <div class="bg-blue-50 p-6 rounded-lg">
                     <h3 class="font-semibold text-blue-900">Core Technology</h3>
-                    <div class="space-y-4">
-                        <div class="bg-blue-50 p-4 rounded-lg">
+                    <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
                             <h4 class="font-semibold text-blue-900">Intelligent Fault Detection</h4>
-                            <ul class="list-disc list-inside text-gray-600 mt-2">
-                                <li>ML models trained on 737 flight data</li>
-                                <li>Real-time IRS velocity divergence detection</li>
-                                <li>GPS position validation and spoofing detection</li>
-                                <li>Pattern recognition for A429 bus anomalies</li>
+                            <ul class="list-disc list-inside text-gray-700 mt-2">
+                                <li>ML models for sensor drift detection</li>
+                                <li>Real-time anomaly detection</li>
+                                <li>Pattern recognition for latent faults</li>
                             </ul>
                         </div>
-                        <div class="bg-blue-50 p-4 rounded-lg">
-                            <h4 class="font-semibold text-blue-900">Advanced Data Processing</h4>
-                            <ul class="list-disc list-inside text-gray-600 mt-2">
-                                <li>100KHz A429 bus parsing with validation</li>
-                                <li>10Hz IRS data fusion and analysis</li>
-                                <li>1Hz GPS position and timing checks</li>
-                                <li>Real-time sensor cross-validation</li>
+                        <div>
+                            <h4 class="font-semibold text-blue-900">Certification Ready</h4>
+                            <ul class="list-disc list-inside text-gray-700 mt-2">
+                                <li>DO-178C compliant outputs</li>
+                                <li>Automated documentation</li>
+                                <li>Full traceability</li>
                             </ul>
                         </div>
-                        <div class="bg-blue-50 p-4 rounded-lg">
-                            <h4 class="font-semibold text-blue-900">Certification-Ready Output</h4>
-                            <ul class="list-disc list-inside text-gray-600 mt-2">
-                                <li>DO-178C compliant fault reports</li>
-                                <li>Full traceability and audit trails</li>
-                                <li>Automated test case generation</li>
-                                <li>Integration with existing V&V tools</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <h3 class="font-semibold text-blue-900">Why We're Different</h3>
-                    <div class="space-y-4">
-                        <div class="bg-blue-50 p-4 rounded-lg">
-                            <h4 class="font-semibold text-blue-900">Domain Expertise</h4>
-                            <ul class="list-disc list-inside text-gray-600 mt-2">
-                                <li>Built by 737 Mission Systems engineer</li>
-                                <li>Deep understanding of avionics protocols</li>
-                                <li>Experience with DO-178C certification</li>
-                                <li>Knowledge of real-world fault patterns</li>
-                            </ul>
-                        </div>
-                        <div class="bg-blue-50 p-4 rounded-lg">
-                            <h4 class="font-semibold text-blue-900">Technical Advantage</h4>
-                            <ul class="list-disc list-inside text-gray-600 mt-2">
-                                <li>Specialized ML for aerospace data</li>
-                                <li>Real-time processing at bus speeds</li>
-                                <li>Explainable AI for certification</li>
-                                <li>Secure, compliant architecture</li>
-                            </ul>
-                        </div>
-                        <div class="bg-blue-50 p-4 rounded-lg">
-                            <h4 class="font-semibold text-blue-900">Speed to Market</h4>
-                            <ul class="list-disc list-inside text-gray-600 mt-2">
-                                <li>30-day MVP development cycle</li>
-                                <li>Ready for initial validation</li>
-                                <li>Rapid iteration capability</li>
-                                <li>Quick integration with existing tools</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="mt-6 bg-green-50 p-4 rounded-lg">
-                <h3 class="font-semibold text-green-900">Key Benefits</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
-                    <div>
-                        <h4 class="font-semibold text-green-900">Safety</h4>
-                        <p class="text-sm text-gray-600">Catch critical faults in real-time. Prevent navigation errors. Ensure system integrity.</p>
-                    </div>
-                    <div>
-                        <h4 class="font-semibold text-green-900">Efficiency</h4>
-                        <p class="text-sm text-gray-600">Reduce V&V cycles by 80%. Cut certification costs. Free engineers for innovation.</p>
-                    </div>
-                    <div>
-                        <h4 class="font-semibold text-green-900">Compliance</h4>
-                        <p class="text-sm text-gray-600">DO-178C ready from day one. Full traceability. Audit-ready documentation.</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 4: Market Opportunity -->
+        <!-- Slide 5: Who It's For -->
+        <div class="slide bg-white p-8 rounded-lg shadow-lg">
+            <h2 class="text-2xl font-semibold text-blue-900">🎯 Who It's For</h2>
+            <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-blue-50 p-6 rounded-lg">
+                    <h3 class="font-semibold text-blue-900">Primary Customers</h3>
+                    <ul class="list-disc list-inside text-gray-700 mt-4 space-y-2">
+                        <li>Aerospace OEMs</li>
+                        <li>Defense Integrators</li>
+                        <li>Space Systems Providers</li>
+                        <li>UAS Manufacturers</li>
+                    </ul>
+                </div>
+                <div class="bg-blue-50 p-6 rounded-lg">
+                    <h3 class="font-semibold text-blue-900">Key Teams</h3>
+                    <ul class="list-disc list-inside text-gray-700 mt-4 space-y-2">
+                        <li>Simulation & Validation</li>
+                        <li>Test & Certification</li>
+                        <li>Systems Integration</li>
+                        <li>Safety & Reliability</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Why Now -->
+        <div class="slide bg-white p-8 rounded-lg shadow-lg">
+            <h2 class="text-2xl font-semibold text-blue-900">🧠 Why Now</h2>
+            <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-blue-50 p-6 rounded-lg">
+                    <h3 class="font-semibold text-blue-900">Market Ready</h3>
+                    <p class="text-gray-700 mt-2">Growing demand for automated fault detection in aerospace and defense</p>
+                </div>
+                <div class="bg-blue-50 p-6 rounded-lg">
+                    <h3 class="font-semibold text-blue-900">Tech Ready</h3>
+                    <p class="text-gray-700 mt-2">ML models and real-time processing capabilities are mature</p>
+                </div>
+                <div class="bg-blue-50 p-6 rounded-lg">
+                    <h3 class="font-semibold text-blue-900">Regulatory Ready</h3>
+                    <p class="text-gray-700 mt-2">Clear path to DO-178C certification</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Market Opportunity -->
         <div class="slide bg-white p-8 rounded-lg shadow-lg">
             <h2 class="text-2xl font-semibold text-blue-900">Market Opportunity</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
@@ -286,7 +280,7 @@
             </div>
         </div>
 
-        <!-- Slide 5: Product Features -->
+        <!-- Slide 8: Product Features -->
         <div class="slide bg-white p-8 rounded-lg shadow-lg">
             <h2 class="text-2xl font-semibold text-blue-900">Product Features</h2>
             <div class="dashboard-mock mt-4 bg-gray-100 p-6 rounded-lg shadow-xl">
@@ -342,7 +336,7 @@
             </div>
         </div>
 
-        <!-- Slide 6: Competitive Advantage -->
+        <!-- Slide 9: Competitive Advantage -->
         <div class="slide bg-white p-8 rounded-lg shadow-lg">
             <h2 class="text-2xl font-semibold text-blue-900">Why BlackBox AI?</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
@@ -432,7 +426,7 @@
             </div>
         </div>
 
-        <!-- Slide 7: Founder Fit -->
+        <!-- Slide 10: Founder Fit -->
         <div class="slide bg-white p-8 rounded-lg shadow-lg">
             <h2 class="text-2xl font-semibold text-blue-900">Founder</h2>
             <p class="text-gray-700 mt-4">Samuel Edwards, Software Engineer III, Boeing</p>
@@ -467,7 +461,7 @@
             </div>
         </div>
 
-        <!-- Slide 8: MVP Plan -->
+        <!-- Slide 11: MVP Plan -->
         <div class="slide bg-white p-8 rounded-lg shadow-lg">
             <h2 class="text-2xl font-semibold text-blue-900">MVP Plan (30 Days)</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
@@ -536,7 +530,7 @@
             </div>
         </div>
 
-        <!-- Slide 9: Funding Ask -->
+        <!-- Slide 12: Funding Ask -->
         <div class="slide bg-white p-8 rounded-lg shadow-lg">
             <h2 class="text-2xl font-semibold text-blue-900">Funding Ask</h2>
             <p class="text-gray-700 mt-4">Pre-Seed: $500K–$1.5M</p>
@@ -548,12 +542,33 @@
             </ul>
         </div>
 
-        <!-- Slide 10: Call to Action -->
+        <!-- Final Slide: Call to Action -->
         <div class="slide bg-white p-8 rounded-lg shadow-lg text-center">
-            <h2 class="text-2xl font-semibold text-blue-900">Join Us</h2>
-            <p class="text-gray-700 mt-4">Partner with BlackBox AI to revolutionize aerospace fault detection</p>
-            <p class="text-gray-700">Contact: smedwards121@gmail.com</p>
-            <p class="text-gray-700">Let's transform avionics data analysis!</p>
+            <h2 class="text-3xl font-bold text-blue-900">Let's Build the Future of Aerospace Diagnostics</h2>
+            <div class="mt-8 max-w-2xl mx-auto">
+                <p class="text-lg text-gray-700 mb-6">Join our early access program and be among the first to transform how mission-critical systems are validated and certified.</p>
+                <div class="bg-blue-50 p-6 rounded-lg mb-8">
+                    <h3 class="font-semibold text-blue-900 mb-4">What You'll Get</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <h4 class="font-semibold text-blue-900">Early Access</h4>
+                            <p class="text-sm text-gray-600">Be first to deploy our ML-powered diagnostics</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-blue-900">Direct Input</h4>
+                            <p class="text-sm text-gray-600">Shape the product roadmap</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-blue-900">Priority Support</h4>
+                            <p class="text-sm text-gray-600">Dedicated technical assistance</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <a href="mailto:smedwards121@gmail.com" class="bg-blue-600 text-white px-8 py-4 rounded-lg hover:bg-blue-700 inline-block text-lg font-semibold">Book a Demo</a>
+                    <p class="text-sm text-gray-500 mt-2">15-minute walkthrough of our platform</p>
+                </div>
+            </div>
         </div>
     </div>
 
