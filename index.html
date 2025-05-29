@@ -128,11 +128,12 @@
         <!-- Slide 1: Title -->
         <div class="slide bg-white p-8 rounded-lg shadow-lg text-center">
             <h1 class="text-4xl font-bold text-blue-900">BlackBox AI</h1>
-            <p class="text-xl text-gray-600 mt-2">The Intelligence Layer for Mission-Critical Systems</p>
+            <p class="text-xl text-gray-600 mt-2">Predict, Prevent, Protect</p>
+            <p class="text-lg text-gray-700 mt-2">AI Fault Detection for Mission-Critical Systems</p>
             <div class="mt-8 max-w-3xl mx-auto">
                 <div class="bg-blue-50 p-6 rounded-lg">
                     <p class="text-lg text-gray-700">Transforming $10B+ in manual avionics analysis into automated, intelligent insights</p>
-                    <p class="text-sm text-gray-500 mt-2">Alpha release Q3 2024 with initial design partners from top aerospace & defense</p>
+                    <p class="text-sm text-gray-500 mt-2">Currently onboarding early partners in aerospace, defense, and autonomous systems</p>
                 </div>
             </div>
             <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
@@ -149,37 +150,60 @@
                     <p class="text-sm text-gray-600">DO-178C compliant from day one</p>
                 </div>
             </div>
+            <div class="mt-8">
+                <div class="flex justify-center space-x-8 text-gray-600">
+                    <div class="flex items-center">
+                        <span class="text-2xl mr-2">🛩️</span>
+                        <span>Aerospace</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="text-2xl mr-2">🚛</span>
+                        <span>Autonomous Vehicles</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="text-2xl mr-2">🛰️</span>
+                        <span>Space Systems</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="text-2xl mr-2">⚓</span>
+                        <span>Naval & Defense Platforms</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Slide 2: What This Is -->
         <div class="slide bg-white p-8 rounded-lg shadow-lg">
             <h2 class="text-2xl font-semibold text-blue-900">🚀 What This Is</h2>
             <div class="mt-6 bg-blue-50 p-6 rounded-lg">
-                <p class="text-lg text-gray-700">BlackBox AI is an intelligent diagnostics engine that transforms complex avionics data into clear, actionable insights. No more staring at raw logs or writing custom scripts.</p>
+                <p class="text-lg text-gray-700">BlackBox AI is an intelligent fault detection engine that transforms complex avionics test data into clear, actionable insights. No more staring at raw logs or writing custom scripts.</p>
+                <div class="mt-4 p-4 bg-white rounded-lg">
+                    <p class="text-sm text-gray-600 italic">"During post-flight analysis, our ML model identified a subtle IMU bias trend in the A429 data that would have been missed by traditional test scripts. This early detection saved weeks of manual analysis and prevented a potential certification delay."</p>
+                </div>
             </div>
             <div class="mt-8">
                 <h3 class="font-semibold text-blue-900 mb-4">How It Works</h3>
                 <div class="bg-white p-6 rounded-lg shadow-md">
-                    <div class="flex items-center justify-between space-x-4">
-                        <div class="text-center">
+                    <div class="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0 md:space-x-4">
+                        <div class="text-center w-full md:w-1/3">
                             <div class="bg-blue-100 p-3 rounded-lg">
-                                <span class="text-blue-900 font-semibold">Raw Data</span>
+                                <span class="text-blue-900 font-semibold">Test Data</span>
                             </div>
-                            <p class="text-sm text-gray-600 mt-2">A429, CAN Bus, GPS, INS</p>
+                            <p class="text-sm text-gray-600 mt-2">A429, CAN Bus, GPS, INS Logs</p>
                         </div>
-                        <div class="text-blue-600">→</div>
-                        <div class="text-center">
+                        <div class="text-blue-600 text-2xl md:text-3xl">→</div>
+                        <div class="text-center w-full md:w-1/3">
                             <div class="bg-blue-600 p-3 rounded-lg">
                                 <span class="text-white font-semibold">BlackBox AI</span>
                             </div>
-                            <p class="text-sm text-gray-600 mt-2">Intelligent Analysis</p>
+                            <p class="text-sm text-gray-600 mt-2">Fault Detection & Analysis</p>
                         </div>
-                        <div class="text-blue-600">→</div>
-                        <div class="text-center">
+                        <div class="text-blue-600 text-2xl md:text-3xl">→</div>
+                        <div class="text-center w-full md:w-1/3">
                             <div class="bg-green-100 p-3 rounded-lg">
                                 <span class="text-green-900 font-semibold">Clear Insights</span>
                             </div>
-                            <p class="text-sm text-gray-600 mt-2">Plain English Reports</p>
+                            <p class="text-sm text-gray-600 mt-2">Fault Reports & Documentation</p>
                         </div>
                     </div>
                 </div>
@@ -187,15 +211,15 @@
             <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="bg-white p-4 rounded-lg shadow-md">
                     <h3 class="font-semibold text-blue-900">For Test Teams</h3>
-                    <p class="text-sm text-gray-600 mt-2">Understand what's happening in your test data</p>
+                    <p class="text-sm text-gray-600 mt-2">Automatically detect and analyze faults in flight test data</p>
                 </div>
                 <div class="bg-white p-4 rounded-lg shadow-md">
                     <h3 class="font-semibold text-blue-900">For V&V Engineers</h3>
-                    <p class="text-sm text-gray-600 mt-2">Generate certification-ready documentation</p>
+                    <p class="text-sm text-gray-600 mt-2">Generate certification-ready fault reports with full traceability</p>
                 </div>
                 <div class="bg-white p-4 rounded-lg shadow-md">
                     <h3 class="font-semibold text-blue-900">For System Engineers</h3>
-                    <p class="text-sm text-gray-600 mt-2">Get clear insights into system behavior</p>
+                    <p class="text-sm text-gray-600 mt-2">Get clear insights into system faults and their root causes</p>
                 </div>
             </div>
         </div>
@@ -206,19 +230,46 @@
             <div class="mt-6 bg-blue-50 p-6 rounded-lg">
                 <h3 class="font-semibold text-blue-900 mb-4">From Raw Data to Clear Understanding</h3>
                 <div class="space-y-4">
-                    <p class="text-gray-700">Instead of manually analyzing sensor data, BlackBox AI instantly identifies critical issues: "GPS-R position jump detected: 100m in 1 second. Likely spoofing attempt. System automatically switched to backup sensors. Navigation filters adjusted to maintain accuracy."</p>
+                    <div class="bg-white p-4 rounded-lg shadow-sm">
+                        <p class="text-gray-700 font-medium">Critical Issue Detected:</p>
+                        <div class="mt-2 pl-4 border-l-4 border-red-500">
+                            <p class="text-gray-700">GPS-R position jump detected: 500m in 1 second</p>
+                            <p class="text-gray-600 text-sm mt-1">Severity: High | Confidence: 98%</p>
+                            <p class="text-gray-600 text-sm">Impact: Navigation accuracy compromised</p>
+                        </div>
+                        <div class="mt-3">
+                            <p class="text-gray-700">System Response:</p>
+                            <ul class="list-disc list-inside text-gray-600 text-sm mt-1">
+                                <li>Automatically switched to backup GPS sensors</li>
+                                <li>Initiated spoofing detection protocols</li>
+                                <li>Logged event for post-flight analysis</li>
+                            </ul>
+                        </div>
+                    </div>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-                        <div class="bg-white p-4 rounded-lg">
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
                             <h4 class="font-semibold text-blue-900">Traditional Approach</h4>
-                            <p class="text-sm text-gray-600">Manual analysis of sensor data and logs</p>
+                            <ul class="list-disc list-inside text-gray-600 text-sm mt-2">
+                                <li>Manual log analysis</li>
+                                <li>Delayed response time</li>
+                                <li>Missed subtle patterns</li>
+                            </ul>
                         </div>
-                        <div class="bg-white p-4 rounded-lg">
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
                             <h4 class="font-semibold text-blue-900">BlackBox AI</h4>
-                            <p class="text-sm text-gray-600">Instant detection and system response</p>
+                            <ul class="list-disc list-inside text-gray-600 text-sm mt-2">
+                                <li>Real-time detection</li>
+                                <li>Automated response</li>
+                                <li>Pattern recognition</li>
+                            </ul>
                         </div>
-                        <div class="bg-white p-4 rounded-lg">
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
                             <h4 class="font-semibold text-blue-900">Result</h4>
-                            <p class="text-sm text-gray-600">Proactive system protection</p>
+                            <ul class="list-disc list-inside text-gray-600 text-sm mt-2">
+                                <li>Proactive protection</li>
+                                <li>Reduced risk</li>
+                                <li>Improved safety</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -428,8 +479,8 @@
                     <div class="mt-4 bg-blue-50 p-4 rounded-lg">
                         <h3 class="font-semibold text-blue-900">Real-World Impact</h3>
                         <ul class="list-disc list-inside text-gray-600 mt-2">
-                            <li>Detected 0.5nm velocity divergence in 2 seconds</li>
-                            <li>Prevented potential navigation error cascade</li>
+                            <li>Identified 5kt IMU velocity divergence in flight test data</li>
+                            <li>Prevented certification delays through early detection</li>
                             <li>Automated DO-178C documentation generation</li>
                             <li>Reduced analysis time from days to minutes</li>
                         </ul>
@@ -440,8 +491,8 @@
                         <div class="bg-blue-50 p-4 rounded-lg">
                             <h3 class="font-semibold text-blue-900">Technical Advantages</h3>
                             <ul class="list-disc list-inside text-gray-600 mt-2">
-                                <li>ML models trained on real flight data</li>
-                                <li>Real-time processing at bus speeds (100KHz)</li>
+                                <li>ML models trained on historical flight test data</li>
+                                <li>High-throughput log processing engine</li>
                                 <li>Automated test case generation</li>
                                 <li>Full traceability and audit trails</li>
                             </ul>
@@ -463,11 +514,11 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
                     <div>
                         <h4 class="font-semibold text-green-900">Speed</h4>
-                        <p class="text-sm text-gray-600">30-day MVP vs. 6-month internal development. Real-time processing vs. batch analysis. Quick integration vs. custom development.</p>
+                        <p class="text-sm text-gray-600">30-day MVP vs. 6-month internal development. Automated analysis vs. manual review. Quick integration vs. custom development.</p>
                     </div>
                     <div>
                         <h4 class="font-semibold text-green-900">Accuracy</h4>
-                        <p class="text-sm text-gray-600">ML models trained on real flight data. 0.5nm detection threshold. Automated validation. No missed faults.</p>
+                        <p class="text-sm text-gray-600">ML models trained on historical flight data. 5kt detection threshold. Automated validation. No missed faults.</p>
                     </div>
                     <div>
                         <h4 class="font-semibold text-green-900">Compliance</h4>
@@ -480,19 +531,19 @@
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-2">
                     <div>
                         <h4 class="font-semibold text-blue-900">Commercial Aviation</h4>
-                        <p class="text-sm text-gray-600">Post-flight analysis and real-time monitoring for commercial aircraft</p>
+                        <p class="text-sm text-gray-600">Post-flight analysis and test data processing for commercial aircraft</p>
                     </div>
                     <div>
                         <h4 class="font-semibold text-blue-900">Defense Systems</h4>
-                        <p class="text-sm text-gray-600">Mission computing and avionics fault detection for military platforms</p>
+                        <p class="text-sm text-gray-600">Mission computing and avionics test data analysis for military platforms</p>
                     </div>
                     <div>
                         <h4 class="font-semibold text-blue-900">UAS/Drones</h4>
-                        <p class="text-sm text-gray-600">Autonomous system monitoring and fault detection for UAV operations</p>
+                        <p class="text-sm text-gray-600">Test data analysis and fault detection for UAV operations</p>
                     </div>
                     <div>
                         <h4 class="font-semibold text-blue-900">Space Systems</h4>
-                        <p class="text-sm text-gray-600">Critical fault detection for satellite and space vehicle operations</p>
+                        <p class="text-sm text-gray-600">Test data analysis and fault detection for satellite operations</p>
                     </div>
                 </div>
             </div>
@@ -637,10 +688,13 @@
                     </div>
                 </div>
                 <div class="space-y-4">
-                    <a href="mailto:smedwards121@gmail.com" class="bg-blue-600 text-white px-8 py-4 rounded-lg hover:bg-blue-700 inline-block text-lg font-semibold">Book a Demo</a>
-                    <p class="text-sm text-gray-500 mt-2">15-minute walkthrough of our platform</p>
-                    <div class="mt-4">
-                        <a href="mailto:smedwards121@gmail.com" class="text-blue-600 hover:text-blue-800">Join Beta Waitlist →</a>
+                    <form class="mb-6">
+                        <input type="email" placeholder="Enter your email" class="px-4 py-2 rounded-lg border border-gray-300 w-full max-w-md mb-2">
+                        <button type="submit" class="bg-blue-600 text-white px-8 py-2 rounded-lg hover:bg-blue-700 w-full max-w-md">Join Early Access</button>
+                    </form>
+                    <div class="flex justify-center space-x-4">
+                        <a href="mailto:smedwards121@gmail.com" class="bg-blue-600 text-white px-8 py-4 rounded-lg hover:bg-blue-700 inline-block text-lg font-semibold">Book a Demo</a>
+                        <a href="mailto:smedwards121@gmail.com" class="bg-gray-600 text-white px-8 py-4 rounded-lg hover:bg-gray-700 inline-block text-lg font-semibold">Contact Us</a>
                     </div>
                 </div>
             </div>
